@@ -1,6 +1,7 @@
 package org.example.scheduleapp.repository;
 
-import org.example.scheduleapp.dto.ScheduleResponseDto;
+
+import org.example.scheduleapp.dto.ScheduleResponseDto.*;
 import org.example.scheduleapp.entity.Schedule;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,13 +27,13 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     }
 
     @Override
-    public ScheduleResponseDto saveSchedule(Schedule schedule) {
+    public Schedule saveSchedule(Schedule schedule) {
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("schedule").usingGeneratedKeyColumns("id");
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", schedule.getName());
+        parameters.put("writer_id", schedule.getWriter_id());
         parameters.put("description", schedule.getDescription());
         parameters.put("password", schedule.getPassword());
         parameters.put("created_at", schedule.getCreatedAt());
@@ -41,20 +42,45 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         // 저장 후 생성된 key값을 Number 타입으로 반환하는 메서드
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new ScheduleResponseDto(
-                key.longValue(),
-                schedule.getName(),
-                schedule.getDescription(),
-                schedule.getCreatedAt(),
-                schedule.getUpdatedAt()
-        );
+        schedule.setId(key.longValue());
+
+        return schedule;
     }
 
     @Override
-    public List<ScheduleResponseDto> findAllSchedules() {
+    public List<ScheduleRes> findAllSchedules() {
 
-        return jdbcTemplate.query("select * from schedule order by updated_at DESC", scheduleRowMapper());
+        return jdbcTemplate.query("SELECT \n" +
+                "    s.id,\n" +
+                "    s.writer_id,\n" +
+                "    w.email,\n" +
+                "    w.name,\n" +
+                "    s.description,\n" +
+                "    s.created_at,\n" +
+                "    s.updated_at\n" +
+                "FROM schedule s\n" +
+                "JOIN writer w ON s.writer_id = w.id\n" +
+                "ORDER BY s.created_at DESC;", scheduleRowMapper());
 
+    }
+
+    public List<ScheduleRes> findScheduleByWriterId(Long id) {
+        return jdbcTemplate.query(
+                "SELECT " +
+                        "    s.id, " +
+                        "    s.writer_id, " +
+                        "    w.email, " +
+                        "    w.name, " +
+                        "    s.description, " +
+                        "    s.created_at, " +
+                        "    s.updated_at " +
+                        "FROM schedule s " +
+                        "JOIN writer w ON s.writer_id = w.id " +
+                        "WHERE s.writer_id = ? " +
+                        "ORDER BY s.created_at DESC;",
+                scheduleRowMapper(),
+                id
+        );
     }
 
     @Override
@@ -65,10 +91,12 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return result.stream().findAny();
     }
 
-    @Override
-    public int updateSchedule(Long id, String name, String description) {
 
-        return jdbcTemplate.update("update schedule set name = ?, description = ?, updated_at = NOW() where id = ?", name, description, id);
+    @Override
+    public int updateSchedule(Long id, Long writer_id, String name, String description) {
+
+        return jdbcTemplate.update("update writer set name = ?, updated_at = NOW() where id = ?",name, writer_id) +
+                jdbcTemplate.update("update schedule set description = ?, updated_at = NOW() where id = ?", description, id);
     }
 
     @Override
@@ -77,14 +105,16 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return jdbcTemplate.update("delete from schedule where id = ?", id);
     }
 
-    private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
+    private RowMapper<ScheduleRes> scheduleRowMapper() {
 
-        return new RowMapper<ScheduleResponseDto>() {
+        return new RowMapper<ScheduleRes>() {
 
             @Override
-            public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new ScheduleResponseDto(
+            public ScheduleRes mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ScheduleRes(
                         rs.getLong("id"),
+                        rs.getLong("writer_id"),
+                        rs.getString("email"),
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getDate("created_at"),
@@ -102,7 +132,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
             public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new Schedule(
                         rs.getLong("id"),
-                        rs.getString("name"),
+                        rs.getLong("writer_id"),
                         rs.getString("description"),
                         rs.getString("password"),
                         rs.getDate("created_at"),

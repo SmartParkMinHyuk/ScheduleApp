@@ -1,27 +1,50 @@
 package org.example.scheduleapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 import org.example.scheduleapp.entity.Schedule;
 
 import java.util.Date;
+import org.apache.commons.lang3.ObjectUtils;
+import org.example.scheduleapp.entity.Writer;
 
-@Getter
-@AllArgsConstructor
 public class ScheduleResponseDto {
 
-    private Long id;           // 고유 식별자(ID)
-    private String name;       // 작성자명
-    private String description; // 할일
-    private Date createdAt;       // 작성일
-    private Date updatedAt;       // 수정일
+    @Data
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ScheduleRes {
 
-    public ScheduleResponseDto(Schedule schedule) {
+        protected Long id;    // 고유 식별자(Schedule_id)
+        protected Long writer_id;      // 고유 식별자(Writer_id)
+        protected String email;       // 이메일명
+        protected String name;        // 작성자명
+        protected String description; // 할일
+        protected Date createdAt;     // 작성일
+        protected Date updatedAt;     // 수정일
 
-        this.id = schedule.getId();
-        this.name = schedule.getName();
-        this.description = schedule.getDescription();
-        this.createdAt = schedule.getCreatedAt();
-        this.updatedAt = schedule.getUpdatedAt();
+        @Builder
+        public ScheduleRes(Writer writer, Schedule schedule) {
+            if (ObjectUtils.isNotEmpty(schedule) || ObjectUtils.isNotEmpty(writer)) {
+                this.id = schedule.getId();
+                this.writer_id = writer.getId();
+                this.email = writer.getEmail();
+                this.name = writer.getName();
+                this.description = schedule.getDescription();
+                this.createdAt = schedule.getCreatedAt();
+                this.updatedAt = schedule.getUpdatedAt();
+            }
+        }
+
+        public ScheduleRes(Long id, Long writer_id, String email, String name, String description, Date createdAt, Date updatedAt) {
+            this.id = id;
+            this.writer_id = writer_id;
+            this.email = email;
+            this.name = name;
+            this.description = description;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
+        }
     }
+
+
+
 }
