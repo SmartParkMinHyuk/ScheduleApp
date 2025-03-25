@@ -19,4 +19,8 @@ public interface ScheduleRepository {
     int updateSchedule(Long id, Long writer_id, String name, String description);
 
     int deleteSchedule(Long id);
+
+    List<ScheduleRes> findPagedSchedules(int offset, int size);
+
+    long countSchedules();
 }

@@ -4,6 +4,8 @@ import lombok.*;
 import org.example.scheduleapp.entity.Schedule;
 
 import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.example.scheduleapp.entity.Writer;
 
@@ -45,6 +47,14 @@ public class ScheduleResponseDto {
         }
     }
 
-
+    @Getter
+    @Builder
+    public static class PageResponseDto<T> {
+        private int currentPage;  // 현재 페이지 번호
+        private int pageSize;     // 한 페이지 당 데이터 수
+        private long totalItems;  // 전체 데이터 건수
+        private int totalPages;   // 총 페이지 수
+        private List<T> data;     // 현재 페이지에 해당하는 데이터 목록
+    }
 
 }

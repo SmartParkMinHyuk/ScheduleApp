@@ -18,4 +18,5 @@ public interface ScheduleService {
 
     void deleteSchedule(Long id, ScheduleDeleteReq reqDto);
 
+    PageResponseDto<ScheduleRes> findPagedSchedules(int page, int size);
 }

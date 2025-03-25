@@ -105,6 +105,31 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return jdbcTemplate.update("delete from schedule where id = ?", id);
     }
 
+    @Override
+    public List<ScheduleRes> findPagedSchedules(int offset, int size) {
+        return jdbcTemplate.query(
+                "SELECT " +
+                        "    s.id, " +
+                        "    s.writer_id, " +
+                        "    w.email, " +
+                        "    w.name, " +
+                        "    s.description, " +
+                        "    s.created_at, " +
+                        "    s.updated_at " +
+                        "FROM schedule s " +
+                        "JOIN writer w ON s.writer_id = w.id " +
+                        "ORDER BY s.created_at DESC " +
+                        "LIMIT ? OFFSET ?",
+                scheduleRowMapper(),
+                size, offset
+        );
+    }
+
+    public long countSchedules() {
+
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schedule", Long.class);
+    }
+
     private RowMapper<ScheduleRes> scheduleRowMapper() {
 
         return new RowMapper<ScheduleRes>() {

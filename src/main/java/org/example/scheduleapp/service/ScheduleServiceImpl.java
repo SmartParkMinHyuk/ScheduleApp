@@ -1,6 +1,7 @@
 package org.example.scheduleapp.service;
 
 
+import org.example.scheduleapp.dto.ScheduleResponseDto;
 import org.example.scheduleapp.dto.ScheduleResponseDto.*;
 import org.example.scheduleapp.entity.Schedule;
 import org.example.scheduleapp.entity.Writer;
@@ -108,7 +109,25 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
 
+    }
 
+    @Override
+    public PageResponseDto<ScheduleRes> findPagedSchedules(int page, int size) {
 
+        int offset = (page - 1) * size;
+
+        List<ScheduleRes> scheduleList = scheduleRepository.findPagedSchedules(offset, size);
+
+        long totalItems = scheduleRepository.countSchedules();
+
+        int totalPages = (size == 0) ? 0 : (int) Math.ceil((double) totalItems / size);
+
+        return PageResponseDto.<ScheduleResponseDto.ScheduleRes>builder()
+                .currentPage(page)
+                .pageSize(size)
+                .totalItems(totalItems)
+                .totalPages(totalPages)
+                .data(scheduleList)
+                .build();
     }
 }

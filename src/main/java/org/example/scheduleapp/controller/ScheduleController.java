@@ -1,13 +1,11 @@
 package org.example.scheduleapp.controller;
 
 
-import lombok.RequiredArgsConstructor;
 import org.example.scheduleapp.dto.ScheduleRequestDto;
 import org.example.scheduleapp.dto.ScheduleRequestDto.*;
 import org.example.scheduleapp.dto.ScheduleResponseDto.*;
 import org.example.scheduleapp.dto.ScheduleResponseDto;
 import org.example.scheduleapp.service.ScheduleService;
-import org.example.scheduleapp.service.WriterService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -58,7 +56,7 @@ public class ScheduleController {
      * @param writer_id 식별자
      * @return : {@link List <ScheduleRes>} JSON 응답
      */
-    @GetMapping("/{writer_id}")
+    @GetMapping("/writer/{writer_id}")
     public ResponseEntity<List<ScheduleRes>> findScheduleByWriterId(@PathVariable Long writer_id) {
 
         return new ResponseEntity<>(scheduleService.findScheduleByWriterId(writer_id), HttpStatus.OK);
@@ -96,5 +94,17 @@ public class ScheduleController {
         scheduleService.deleteSchedule(id, reqDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 페이징처리
+     */
+    @GetMapping("/{paged}")
+    public ResponseEntity<PageResponseDto<ScheduleRes>> findPagedSchedules(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        PageResponseDto<ScheduleRes> schedulePage = scheduleService.findPagedSchedules(page, size);
+        return ResponseEntity.ok(schedulePage);
     }
 }
