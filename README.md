@@ -229,71 +229,62 @@ Spring Boot + JDBC Template 기반 일정 관리 서비스의 RESTful API 명세
 - **Response**: `200 OK`
 - 
 ```json
-  [
+[
   {
-  "id": 21,
-  "writer_id": 7,
-  "email": "2323@1323.com",
-  "name": "홍길",
-  "description": "운동하기",
-  "createdAt": "2025-03-25",
-  "updatedAt": "2025-03-25"
+    "id": 25,
+    "writer_id": 7,
+    "email": "2323@1323.com",
+    "name": "홍길",
+    "description": "운동하기",
+    "createdAt": "2025-03-25",
+    "updatedAt": "2025-03-25"
   },
   {
-  "id": 22,
-  "writer_id": 7,
-  "email": "2323@1323.com",
-  "name": "홍길",
-  "description": "운동하기",
-  "createdAt": "2025-03-25",
-  "updatedAt": "2025-03-25"
+    "id": 24,
+    "writer_id": 7,
+    "email": "2323@1323.com",
+    "name": "홍길",
+    "description": "운동하기",
+    "createdAt": "2025-03-25",
+    "updatedAt": "2025-03-25"
   },
   {
-  "id": 20,
-  "writer_id": 7,
-  "email": "2323@1323.com",
-  "name": "홍길",
-  "description": "운동하기",
-  "createdAt": "2025-03-25",
-  "updatedAt": "2025-03-25"
+    "id": 23,
+    "writer_id": 7,
+    "email": "2323@1323.com",
+    "name": "홍길",
+    "description": "운동하기",
+    "createdAt": "2025-03-25",
+    "updatedAt": "2025-03-25"
   },
   {
-  "id": 18,
-  "writer_id": 6,
-  "email": "112323@112323.com",
-  "name": "홍길2333330",
-  "description": "운동하기",
-  "createdAt": "2025-03-25",
-  "updatedAt": "2025-03-25"
+    "id": 21,
+    "writer_id": 7,
+    "email": "2323@1323.com",
+    "name": "홍길",
+    "description": "운동하기",
+    "createdAt": "2025-03-25",
+    "updatedAt": "2025-03-25"
   },
   {
-  "id": 19,
-  "writer_id": 6,
-  "email": "112323@112323.com",
-  "name": "홍길2333330",
-  "description": "운동하기",
-  "createdAt": "2025-03-25",
-  "updatedAt": "2025-03-25"
+    "id": 22,
+    "writer_id": 7,
+    "email": "2323@1323.com",
+    "name": "홍길",
+    "description": "운동하기",
+    "createdAt": "2025-03-25",
+    "updatedAt": "2025-03-25"
   },
   {
-  "id": 17,
-  "writer_id": 6,
-  "email": "112323@112323.com",
-  "name": "홍길2333330",
-  "description": "운동하기",
-  "createdAt": "2025-03-25",
-  "updatedAt": "2025-03-25"
-  },
-  {
-  "id": 16,
-  "writer_id": 6,
-  "email": "112323@112323.com",
-  "name": "홍길2333330",
-  "description": "운동하기",
-  "createdAt": "2025-03-25",
-  "updatedAt": "2025-03-25"
+    "id": 20,
+    "writer_id": 7,
+    "email": "2323@1323.com",
+    "name": "홍길",
+    "description": "운동하기",
+    "createdAt": "2025-03-25",
+    "updatedAt": "2025-03-25"
   }
-  ]
+]
 ```
 ---
 
