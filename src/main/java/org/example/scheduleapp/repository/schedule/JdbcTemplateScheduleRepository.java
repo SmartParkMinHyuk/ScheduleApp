@@ -1,4 +1,4 @@
-package org.example.scheduleapp.repository;
+package org.example.scheduleapp.repository.schedule;
 
 
 import org.example.scheduleapp.dto.ScheduleResponseDto.*;

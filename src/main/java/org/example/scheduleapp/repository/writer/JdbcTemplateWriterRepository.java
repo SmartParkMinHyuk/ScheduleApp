@@ -1,4 +1,4 @@
-package org.example.scheduleapp.repository;
+package org.example.scheduleapp.repository.writer;
 
 
 import org.example.scheduleapp.entity.Writer;

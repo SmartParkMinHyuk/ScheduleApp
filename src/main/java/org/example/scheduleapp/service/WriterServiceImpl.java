@@ -2,7 +2,7 @@ package org.example.scheduleapp.service;
 
 
 import org.example.scheduleapp.entity.Writer;
-import org.example.scheduleapp.repository.WriterRepository;
+import org.example.scheduleapp.repository.writer.WriterRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;

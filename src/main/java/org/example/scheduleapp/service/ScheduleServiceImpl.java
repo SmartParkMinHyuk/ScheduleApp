@@ -5,7 +5,7 @@ import org.example.scheduleapp.dto.ScheduleResponseDto;
 import org.example.scheduleapp.dto.ScheduleResponseDto.*;
 import org.example.scheduleapp.entity.Schedule;
 import org.example.scheduleapp.entity.Writer;
-import org.example.scheduleapp.repository.ScheduleRepository;
+import org.example.scheduleapp.repository.schedule.ScheduleRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.example.scheduleapp.dto.ScheduleRequestDto.*;
