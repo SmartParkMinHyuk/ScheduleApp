@@ -1,4 +1,4 @@
-package org.example.scheduleapp.service;
+package org.example.scheduleapp.service.writer;
 
 import org.example.scheduleapp.entity.Writer;
 
